@@ -1,12 +1,30 @@
-body {
+/* ========================================
+   RESET & SAFE AREA
+   ======================================== */
+html, body {
   margin: 0;
-  min-height: 100vh;
+  padding: 0;
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  background: linear-gradient(135deg, #8be5ff, #98f9a5);
+
+  /* Safari/iOS safe area */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: border-box;
+}
+
+/* ========================================
+   MAIN LAYOUT
+   ======================================== */
+body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(180deg, #8ee7ff 0%, #5fd87a 60%, #46c66b 100%);
-  overflow: hidden;
-  font-family: sans-serif;
 }
 
 .game {
@@ -16,8 +34,15 @@ body {
   align-items: center;
   width: 90vw;
   max-width: 460px;
+  height: 100%;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  touch-action: none;
 }
 
+/* ========================================
+   MONKEY
+   ======================================== */
 #monkey {
   width: 80%;
   max-width: 300px;
@@ -29,17 +54,14 @@ body {
 }
 
 @keyframes monkeyFloat {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
-  100% {
-    transform: translateY(0);
-  }
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
 }
 
+/* ========================================
+   HAND
+   ======================================== */
 #hand {
   width: 48px;
   height: 48px;
@@ -50,6 +72,9 @@ body {
   display: none;
 }
 
+/* ========================================
+   HEARTS
+   ======================================== */
 #hearts {
   position: absolute;
   top: 0;
@@ -60,8 +85,60 @@ body {
   z-index: 5;
 }
 
-/* COUNTER */
+.heart {
+  position: absolute;
+  font-size: 24px;
+  animation: floatUp 1s ease-out forwards;
+}
 
+.heart.bonus {
+  font-size: 36px;
+  color: #ff00aa;
+  text-shadow: 0 0 6px white, 0 0 12px #ff00aa;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  50% { transform: translateY(-50px) scale(1.2); }
+  100% { transform: translateY(-100px) scale(0.8); opacity: 0; }
+}
+
+/* ========================================
+   BANANAS
+   ======================================== */
+.banana {
+  position: absolute;
+  font-size: 32px;
+  animation: bananaFly 1.4s ease-out forwards;
+}
+
+.banana.big { font-size: 64px; }
+
+@keyframes bananaFly {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  50% { transform: translateY(-80px) scale(1.2) rotate(10deg); }
+  100% { transform: translateY(-160px) scale(0.8) rotate(-20deg); opacity: 0; }
+}
+
+/* ========================================
+   CONFETTI
+   ======================================== */
+.confetti {
+  position: fixed;
+  width: 8px;
+  height: 14px;
+  animation: confettiFall 2s linear forwards;
+  z-index: 20;
+}
+
+@keyframes confettiFall {
+  0% { transform: translateY(0) rotate(0); }
+  100% { transform: translateY(110vh) rotate(720deg); }
+}
+
+/* ========================================
+   COUNTER
+   ======================================== */
 #counter {
   position: absolute;
   bottom: 100%;
@@ -74,88 +151,9 @@ body {
   z-index: 15;
 }
 
-/* HEARTS */
-
-.heart {
-  position: absolute;
-  font-size: 24px;
-  animation: floatUp 1s ease-out forwards;
-}
-
-.heart.bonus {
-  font-size: 36px;
-  color: #ff00aa;
-  text-shadow:
-    0 0 6px white,
-    0 0 12px #ff00aa;
-}
-
-@keyframes floatUp {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-
-  50% {
-    transform: translateY(-50px) scale(1.2);
-  }
-
-  100% {
-    transform: translateY(-100px) scale(0.8);
-    opacity: 0;
-  }
-}
-
-/* BANANAS */
-
-.banana {
-  position: absolute;
-  font-size: 32px;
-  animation: bananaFly 1.4s ease-out forwards;
-}
-
-.banana.big {
-  font-size: 64px;
-}
-
-@keyframes bananaFly {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-
-  50% {
-    transform: translateY(-80px) scale(1.2) rotate(10deg);
-  }
-
-  100% {
-    transform: translateY(-160px) scale(0.8) rotate(-20deg);
-    opacity: 0;
-  }
-}
-
-/* CONFETTI */
-
-.confetti {
-  position: fixed;
-  width: 8px;
-  height: 14px;
-  animation: confettiFall 2s linear forwards;
-  z-index: 20;
-}
-
-@keyframes confettiFall {
-  0% {
-    transform: translateY(0) rotate(0);
-  }
-
-  100% {
-    transform: translateY(110vh) rotate(720deg);
-  }
-}
-
-/* COPYRIGHT */
-
+/* ========================================
+   COPYRIGHT
+   ======================================== */
 .copyright {
   position: fixed;
   bottom: 10px;
@@ -168,31 +166,23 @@ body {
   pointer-events: none;
 }
 
-/* MOBILE */
-
+/* ========================================
+   MOBILE ADAPTIVE
+   ======================================== */
 @media (max-width: 400px) {
-  #monkey {
-    width: 90%;
-    max-width: 250px;
-  }
+  #monkey { width: 90%; max-width: 250px; }
+  #counter { font-size: 18px; }
+  .heart { font-size: 20px; }
+  .heart.bonus { font-size: 28px; }
+  .banana { font-size: 26px; }
+  .banana.big { font-size: 48px; }
+}
 
-  #counter {
-    font-size: 18px;
-  }
-
-  .heart {
-    font-size: 20px;
-  }
-
-  .heart.bonus {
-    font-size: 28px;
-  }
-
-  .banana {
-    font-size: 26px;
-  }
-
-  .banana.big {
-    font-size: 48px;
-  }
+/* ========================================
+   DISABLE LONG PRESS MENU ON IMAGES / MONKEY
+   ======================================== */
+img, #monkey {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
