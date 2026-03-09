@@ -77,12 +77,23 @@ function pet() {
   localStorage.setItem("petCount", petCount);
   counter.innerText = petCount + " ❤️";
 
-  if (petCount % 5 === 0) spawnHearts();
-  if ([50, 100, 250].includes(petCount)) spawnHearts(true, 5);
-  if (petCount === 200) spawnBananas(false, 6);
-  if (petCount === 500) spawnBananas(false, 10);
-  if (petCount === 750) spawnBananas(false, 14);
-  if (petCount === 1000) { spawnBananas(true, 8); spawnConfetti(); }
+  /* REWARDS */
+
+if (petCount % 5 === 0) spawnHearts();
+if (petCount % 250 === 0) spawnHearts(true, 6);
+if (petCount % 100 === 0) spawnBananas(false, 5);
+if (petCount % 1000 === 0) {
+  spawnBananas(true, 10);
+  spawnConfetti();
+}
+if (petCount === 5000) {
+  spawnBananas(true, 30);
+  spawnConfetti(60);
+}
+if (petCount === 10000) {
+  spawnBananas(true, 60);
+  spawnConfetti(120);
+}
 
   if (state === "happy") return;
   clearInterval(idleTimer);
@@ -136,3 +147,4 @@ images.forEach(img => {
 document.addEventListener('gesturestart', e => e.preventDefault());
 
 startIdle();
+
